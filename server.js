@@ -47,7 +47,7 @@ const upload = multer({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(__dirname));
 
 app.post("/api/requests", upload.array("documents", 5), (req, res) => {
   try {
