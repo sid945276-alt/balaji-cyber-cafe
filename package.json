@@ -1,0 +1,14 @@
+{
+  "name": "balaji-cyber-cafe",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Balaji Cyber Cafe customer service portal",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  }
+}
