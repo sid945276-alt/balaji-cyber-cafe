@@ -1,0 +1,9 @@
+<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Balaji Admin</title><link rel="stylesheet" href="style.css"></head>
+<body><section class="section"><h1>बालाजी साइबर कैफे — Admin Panel</h1><p>Admin Key डालकर आवेदन देखें और Status बदलें।</p>
+<input id="key" placeholder="Admin Key"><button class="btn" onclick="load()">Login</button><div id="out"></div></section>
+<script>
+let key="";
+async function load(){key=document.getElementById("key").value;const r=await fetch("/api/admin/requests",{headers:{"x-admin-key":key}});const d=await r.json();if(!r.ok){out.innerHTML="<p class=error>गलत Admin Key</p>";return}
+out.innerHTML="<div class=grid style='grid-template-columns:1fr'>"+d.map(x=>`<div><b>${x.request_id} — ${x.service}</b><p>${x.name} | ${x.mobile}<br>${x.message||""}</p><label>Status<select id="s-${x.request_id}"><option ${x.status=="Received"?"selected":""}>Received</option><option ${x.status=="Processing"?"selected":""}>Processing</option><option ${x.status=="Document Required"?"selected":""}>Document Required</option><option ${x.status=="Completed"?"selected":""}>Completed</option></select></label><label>Payment<select id="p-${x.request_id}"><option ${x.payment_status=="Pending"?"selected":""}>Pending</option><option ${x.payment_status=="Paid"?"selected":""}>Paid</option></select></label><button class=btn onclick="save('${x.request_id}')">Save</button></div>`).join("")+"</div>"}
+async function save(id){await fetch("/api/admin/requests/"+id,{method:"PATCH",headers:{"content-type":"application/json","x-admin-key":key},body:JSON.stringify({status:document.getElementById("s-"+id).value,payment_status:document.getElementById("p-"+id).value})});load()}
+</script></body></html>
